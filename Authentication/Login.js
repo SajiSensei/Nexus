@@ -1,9 +1,13 @@
 import { StatusBar } from 'expo-status-bar'
 import React from 'react'
 import { StyleSheet, View, Image, Text, TextInput, TouchableOpacity } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 import LoginScreenImage from '../assets/LoginScreenImage.png'
 
 const Login = () => {
+
+    //Variables
+    const navigation = useNavigation();
 
     return(
         <View style={styles.MainContainer}>
@@ -41,7 +45,11 @@ const Login = () => {
 
              <Text style={styles.signuptext1}>Don't have an account? </Text>
 
-             <TouchableOpacity style={styles.signup}><Text style={styles.signuptext2}>Sign Up</Text></TouchableOpacity>
+             <TouchableOpacity style={styles.signup} onPress={() => {
+                navigation.navigate(
+                    'Register'
+                )   
+            }}><Text style={styles.signuptext2}>Sign Up</Text></TouchableOpacity>
 
              </View>
 
