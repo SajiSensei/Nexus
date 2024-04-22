@@ -5,6 +5,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { FIREBASE_AUTH } from '../FirebaseConfig';
 import LoginScreenImage from '../assets/LoginScreenImage.png';
 
+
 const Login = () => {
     const navigation = useNavigation();
 
