@@ -1,96 +1,133 @@
-import { StatusBar } from 'expo-status-bar'
-import React from 'react'
-import { StyleSheet, View, Image, Text, TextInput, TouchableOpacity } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
-import RegisterImage from '../assets/RegisterImage.png'
+import React, { useState } from 'react';
+import { StyleSheet, View, Image, Text, TextInput, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { doc, setDoc, collection } from 'firebase/firestore';
+import { FIREBASE_AUTH, FIREBASE_DB } from '../FirebaseConfig';
+import RegisterImage from '../assets/RegisterImage.png';
 
 const Register = () => {
-
-    //Variables
     const navigation = useNavigation();
 
-    return(
-        <View style={styles.MainContainer}>
-             
-             <View style={styles.ContainerHeader}>
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [height, setHeight] = useState('');
+    const [weight, setWeight] = useState('');
+    const [age, setAge] = useState('');
+    const [sex, setSex] = useState('');
+    
+    const auth = FIREBASE_AUTH;
+    const db = FIREBASE_DB;
 
-                <Image source={RegisterImage} style={styles.HeaderImage} />
-
-                <Text style={styles.Text}>A Step Closer!</Text>
-
-             </View>
-
-
-             <View style={styles.LoginForm}>
+    const handleSignUp = async () => {
+        if (password !== confirmPassword) {
+            alert("Passwords do not match");
+            return;
+        }
+        
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
             
-            <Text style={styles.inputtext}>Name</Text>
-             <TextInput
-              style={styles.input}
-            />
+            // Store additional user data in Firestore
+            await setDoc(doc(collection(db, 'users'), user.uid), {
+                name: name,
+                email: email,
+                height: height,
+                weight: weight,
+                age: age,
+                sex: sex
+            });
 
-            <Text style={styles.inputtext}>Email</Text>
-            <TextInput
-              style={styles.input}
-            />
+            console.log("User registered successfully:", user);
+            navigation.navigate('Home');
+        } catch (error) {
+            console.error("Error signing up:", error);
+            alert("Error signing up: " + error.message);
+        }
+    };
 
-            <Text style={styles.inputtext}>Password</Text>
-            <TextInput
-              style={styles.input}
-            />
-
-            <Text style={styles.inputtext}>Confirm Password</Text>
-            <TextInput
-              style={styles.input}
-            />
-
-            <View style={styles.formcontainer}>
-
-            <View style={styles.left}>
-
-            <Text style={styles.inputtext}>Height</Text>
-            <TextInput
-            style={styles.input2}
-            />
-
-            <Text style={styles.inputtext}>Age</Text>
-            <TextInput
-            style={styles.input2}
-            />
+    return (
+        <View style={styles.MainContainer}>
+            <View style={styles.ContainerHeader}>
+                <Image source={RegisterImage} style={styles.HeaderImage} />
+                <Text style={styles.Text}>A Step Closer!</Text>
             </View>
+            <View style={styles.LoginForm}>
+                <Text style={styles.inputtext}>Name</Text>
+                <TextInput
+                    style={styles.input}
+                    value={name}
+                    onChangeText={setName}
+                />
+                <Text style={styles.inputtext}>Email</Text>
+                <TextInput
+                    style={styles.input}
+                    value={email}
+                    onChangeText={setEmail}
+                />
+                <Text style={styles.inputtext}>Password</Text>
+                <TextInput
+                    style={styles.input}
+                    value={password}
+                    onChangeText={setPassword}
+                    secureTextEntry
+                />
+                <Text style={styles.inputtext}>Confirm Password</Text>
+                <TextInput
+                    style={styles.input}
+                    value={confirmPassword}
+                    onChangeText={setConfirmPassword}
+                    secureTextEntry
+                />
 
+                <View style={styles.formcontainer}>
+                
+                    <View style={styles.left}>
 
-            <View style={styles.right}>
+                    <Text style={styles.inputtext}>Height (cm)</Text>
+                    <TextInput
+                        style={styles.input2}
+                        value={height}
+                        onChangeText={setHeight}
+                    />
+                    <Text style={styles.inputtext}>Weight (kg)</Text>
+                    <TextInput
+                        style={styles.input2}
+                        value={weight}
+                        onChangeText={setWeight}
+                    />
 
-            <Text style={styles.inputtext}>Weight</Text>
-            <TextInput
-            style={styles.input2}
-            />
+                    </View>
 
-            <Text style={styles.inputtext}>Sex</Text>
-            <TextInput
-            style={styles.input2}
-            />
+                    <View style={styles.right}>
+                    <Text style={styles.inputtext}>Age</Text>
+                    <TextInput
+                        style={styles.input2}
+                        value={age}
+                        onChangeText={setAge}
+                    />
+                    <Text style={styles.inputtext}>Sex (Male/Female)</Text>
+                    <TextInput
+                        style={styles.input2}
+                        value={sex}
+                        onChangeText={setSex}
+                    />
+
+                    </View>
+
+                </View>
+
+                <TouchableOpacity style={styles.button} onPress={handleSignUp}>
+                    <Text style={styles.buttontext}>Sign Up</Text>
+                </TouchableOpacity>
             </View>
-
-
-            </View>
-
-            <TouchableOpacity style={styles.button} onPress={() => {
-                navigation.navigate(
-                    'Login'
-                )   
-            }}>
-            <Text style={styles.buttontext}>Sign Up</Text>
-            </TouchableOpacity>     
-
-
-             </View>
-
             
         </View>
     );
-
-}
+};
 
 const styles = StyleSheet.create({
 
