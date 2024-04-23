@@ -101,7 +101,7 @@ const Home = () => {
                     </View>
                 </View>
 
-                <TouchableOpacity style={styles.changebutton} onPress={handleUpdate}> {/* Call handleUpdate onPress */}
+                <TouchableOpacity style={styles.changebutton} onPress={handleUpdate}> 
                     <Text style={styles.changetext}>Change</Text>
                 </TouchableOpacity>
 

@@ -56,7 +56,7 @@ const Login = () => {
                         setError(null); // Reset error state when text changes
                     }}
                 />
-                {error && <Text style={styles.errorText}>{error}</Text>} {/* Display error message */}
+               
                 <TouchableOpacity style={styles.button} onPress={handleSignIn}>
                     <Text style={styles.buttontext}>Login</Text>
                 </TouchableOpacity>
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     },
     Text: {
         marginTop: '8%',
-        fontWeight: '700',
+        fontWeight: 'bold',
         fontSize: 30,
         textAlign: 'center',
         lineHeight: 45,
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
         color: '#7A9AED',
         fontSize: 15,
         lineHeight: 22.5,
-        fontWeight: '700',
+        fontWeight: 'bold',
         paddingLeft: '4%',
     },
     inputError: {
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     },
     buttontext: {
         color: 'white',
-        fontWeight: 500,
+        fontWeight: 'bold',
         fontSize: 12,
     },
     textregister: {
@@ -144,13 +144,13 @@ const styles = StyleSheet.create({
     },
     signuptext1: {
         fontSize: 13,
-        fontWeight: '700',
+        fontWeight: 'bold',
         lineHeight: 19.5,
         color: '#7A9AED',
     },
     signuptext2: {
         fontSize: 13,
-        fontWeight: '700',
+        fontWeight: 'bold',
         lineHeight: 19.5,
         color: '#7A9AED',
         textDecorationLine: 'underline', 

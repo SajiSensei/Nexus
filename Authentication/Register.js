@@ -3,7 +3,7 @@ import { StyleSheet, View, Image, Text, TextInput, TouchableOpacity } from 'reac
 import { useNavigation } from '@react-navigation/native';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc, collection } from 'firebase/firestore';
-import { FIREBASE_AUTH, FIREBASE_DB } from '../FirebaseConfig';
+import { FIREBASE_AUTH, FIREBASE_DB } from '../FirebaseConfig'; // Import the initialized auth and db from FirebaseConfig
 import RegisterImage from '../assets/RegisterImage.png';
 
 const Register = () => {
@@ -18,14 +18,16 @@ const Register = () => {
     const [age, setAge] = useState('');
     const [sex, setSex] = useState('');
     
-    const auth = FIREBASE_AUTH;
-    const db = FIREBASE_DB;
+    const auth = FIREBASE_AUTH; // Use the existing initialized auth from FirebaseConfig
+    const db = FIREBASE_DB; // Use the existing initialized db from FirebaseConfig
 
     const handleSignUp = async () => {
+
         if (password !== confirmPassword) {
             alert("Passwords do not match");
             return;
         }
+        
         
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -44,8 +46,8 @@ const Register = () => {
             console.log("User registered successfully:", user);
             navigation.navigate('Home');
         } catch (error) {
-            console.error("Error signing up:", error);
-            alert("Error signing up: " + error.message);
+            console.log("Error signing up:", error);
+            
         }
     };
 
@@ -159,7 +161,7 @@ const styles = StyleSheet.create({
     },
 
     LoginForm:{
-        height: '100%',
+        height: '90%',
         borderRadius: 30,
         backgroundColor: '#FFFFFF',
         top: '-5%',
@@ -193,7 +195,7 @@ const styles = StyleSheet.create({
       },
 
       input2: {
-        height: '100%',
+        height: '50%',
         width: '80%',
         borderRadius: 10,
         borderWidth: 3,
@@ -209,9 +211,9 @@ const styles = StyleSheet.create({
 
     
       button:{
-        top: '5%',
+        top: '15%',
         width: '72%',
-        height: '5%',
+        height: '7%',
         alignItems: 'center',
         justifyContent: 'center',
         alignSelf: 'center',
@@ -221,7 +223,7 @@ const styles = StyleSheet.create({
 
     buttontext:{
         color: 'white',
-        fontWeight: 500,
+        fontWeight: '500',
         fontSize: 12,
     },
 
